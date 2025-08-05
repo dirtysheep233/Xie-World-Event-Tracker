@@ -18,7 +18,7 @@ public class ServerMessageHandler extends Handler {
 
     private void onServerMessage(Object[] args) {
 
-                World_event_tracker.LOGGER.info("received discord {}", args[0].toString());
+                World_event_tracker.LOGGER.info("received notif {}", args[0].toString());
                 S2CServerEvents.MESSAGE.invoker().interact(args[0]);
 
     }

@@ -216,7 +216,7 @@ public class World_event_trackerClient extends Api {
     protected void ready() {
         wynnPlayerInfo = Managers.Net.wynn.wynnPlayerInfo;
         try {
-            guildPrefix = wynnPlayerInfo.get("guild").getAsJsonObject().get("prefix").getAsString();
+            guildPrefix = wynnPlayerInfo.get("username").getAsString();
             uuid = wynnPlayerInfo.get("uuid").getAsString();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(World_event_tracker.secrets.get("url").getAsString()+"api/v2/user"))
@@ -232,39 +232,23 @@ public class World_event_trackerClient extends Api {
                                 World_event_tracker.LOGGER.info("successfully loaded base url");
                                 super.enable();
                             }, (e) -> {
-                                String guildString = null;
-                                if (wynnPlayerInfo.get("guild").isJsonObject()) {
-                                    guildString = wynnPlayerInfo.get("guild").getAsJsonObject().get("prefix")
-                                            .getAsString();
-                                }
                                 Managers.Net.apiCrash(Text.literal(
-                                                "Couldn't fetch base url for server of guild \"" + guildString + "\". " +
-                                                        "Talk to a chief about setting one up for your guild. If you believe this is a mistake, check logs for more details.")
+                                                "Couldn't get your Wynncraft info")
                                         .setStyle(Style.EMPTY.withColor(Formatting.RED)), this);
                                 World_event_tracker.LOGGER.error("Fetch World Event Tracker exception: {}", e);
                             });
                         } catch (Exception e) {
-                            String guildString = null;
-                            if (wynnPlayerInfo.get("guild").isJsonObject()) {
-                                guildString = wynnPlayerInfo.get("guild").getAsJsonObject().get("prefix").getAsString();
-                            }
                             Managers.Net.apiCrash(Text.literal(
-                                            "Couldn't fetch base url for server of guild \"" + guildString + "\". " +
-                                                    "Talk to a chief about setting one up for your guild. If you believe this is a mistake, check logs for more details.")
+                                            "Couldn't get your Wynncraft info")
                                     .setStyle(Style.EMPTY.withColor(Formatting.RED)), this);
-                            World_event_tracker.LOGGER.error("Fetch guild exception: {} {}", e, e.getMessage());
+                            World_event_tracker.LOGGER.error("Fetch User exception: {} {}", e, e.getMessage());
 
                         }
                     });
         } catch (Exception e) {
-            String guildString = null;
-            if (wynnPlayerInfo.get("guild").isJsonObject()) {
-                guildString = wynnPlayerInfo.get("guild").getAsJsonObject().get("prefix").getAsString();
-            }
             World_event_tracker.LOGGER.error(e.toString());
             Managers.Net.apiCrash(Text.literal(
-                            "Couldn't fetch base url for server of guild \"" + guildString + "\". " +
-                                    "Talk to a chief about setting one up for your guild.")
+                            "Couldn't get your Wynncraft info")
                     .setStyle(Style.EMPTY.withColor(Formatting.RED)), this);
         }
     }

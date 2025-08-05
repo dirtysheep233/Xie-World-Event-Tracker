@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 
 public class ServerBridgeFeature extends Feature {
     private final Pattern WE_PATTERN = Pattern.compile("^§0((\uDAFF\uDFFC\uE00D\uDAFF\uDFFF\uE002\uDAFF\uDFFE)|(\uDAFF\uDFFC\uE001\uDB00\uDC06))§0 §0The (?<worldevent>.+)+ World Event starts in (?<time>.+)+!");
+    private final Pattern ANNIE_PATTERN = Pattern.compile("^§0\uDAFF\uDFFC\uE001\uDB00\uDC06§0 §cPrepare to defend the province at the Corruption Portal in (?<time>.+)+!");
     private SocketIOClient socketIOClient;
 
     @Override
@@ -101,9 +102,12 @@ public class ServerBridgeFeature extends Feature {
         }
         World_event_tracker.LOGGER.info("received: {}", m);
         Matcher weMatcher = WE_PATTERN.matcher(m);
+        Matcher annieMatcher = ANNIE_PATTERN.matcher(m);
         if (!m.contains("\uE003") && weMatcher.find()) {
-            World_event_tracker.LOGGER.info(weMatcher.group("worldevent"));
                 socketIOClient.emit(socketIOClient.serverSocket, "wynnMessage", weMatcher.group("worldevent")+":"+weMatcher.group("time"));
+        }
+        if (!m.contains("\uE004") && annieMatcher.find()) {
+            socketIOClient.emit(socketIOClient.serverSocket,"annieMessage", annieMatcher.group("time"));
         }
     }
 
