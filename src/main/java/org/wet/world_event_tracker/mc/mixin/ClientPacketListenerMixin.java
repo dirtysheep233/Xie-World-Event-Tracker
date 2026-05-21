@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.mc.mixin;
 
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
@@ -10,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.wet.world_event_tracker.World_event_tracker;
 import org.wet.world_event_tracker.components.Managers;
 import org.wet.world_event_tracker.mc.event.PlayerInfoChangedEvents;
 import org.wet.world_event_tracker.mc.event.WynnChatMessage;
@@ -26,7 +26,6 @@ public class ClientPacketListenerMixin {
         }
     }
 
-    // for world
     @Inject(method = "onPlayerList", at = @At("HEAD"))
     private void onPlayerList(PlayerListS2CPacket packet, CallbackInfo ci) {
         if (!MinecraftClient.getInstance().isOnThread()) return;
@@ -41,7 +40,6 @@ public class ClientPacketListenerMixin {
         }
     }
 
-    // for hub
     @Inject(method = "onPlayerListHeader", at = @At("HEAD"))
     private void onPlayerListHeader(PlayerListHeaderS2CPacket packet, CallbackInfo ci) {
         if (!MinecraftClient.getInstance().isOnThread()) return;

@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.mc.mixin.accessors;
 
-
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import org.spongepowered.asm.mixin.Mixin;

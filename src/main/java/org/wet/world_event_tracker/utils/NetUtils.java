@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.utils;
 
-
 import com.google.gson.JsonElement;
 import net.minecraft.text.Text;
 import org.wet.world_event_tracker.World_event_tracker;
@@ -21,10 +20,7 @@ public class NetUtils {
         if (exception != null) {
             throw (Exception) exception;
         }
-        if (response.statusCode()==637) {
-            McUtils.sendLocalMessage(Text.literal("§cYou are not registered on the system, please type \"/wet register\" to register"), Prepend.DEFAULT.get(), false);
-
-        }else {
+        else {
             if (response.statusCode() / 100 == 2) {
                 onSuccess.accept(JsonUtils.toJsonElement(response.body()));
             } else {

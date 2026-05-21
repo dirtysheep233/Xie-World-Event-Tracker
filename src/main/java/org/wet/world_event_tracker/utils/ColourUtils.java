@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.utils;
 
-
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 

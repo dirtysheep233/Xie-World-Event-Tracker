@@ -2,6 +2,7 @@ package org.wet.world_event_tracker.utils.type;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -11,12 +12,19 @@ import org.wet.world_event_tracker.utils.text.type.TextParseOptions;
 public enum Prepend {
     DEFAULT(Text.literal("[World Event Tracker] ").setStyle(Style.EMPTY.withColor(Formatting.GOLD))),
     EMPTY(Text.empty()),
-//    GUILD(Text.literal("󏿼󏿿󏿾")
-//            .append(" ").setStyle(Style.EMPTY.withFont(Identifier.of("chat")).withColor(Formatting.AQUA)), Text.literal("\uDAFF\uDFFC\uE001\uDB00\uDC06")
-//            .append(" ").setStyle(Style.EMPTY.withFont(Identifier.of("chat")).withColor(Formatting.AQUA)));
-    WE(Text.literal("󏿼󏿿󏿾")
-            .append(" ").setStyle(Style.EMPTY.withFont(Identifier.of("chat")).withColor(Formatting.DARK_AQUA)), Text.literal("\uDAFF\uDFFC\uE001\uDB00\uDC06")
-            .append(" ").setStyle(Style.EMPTY.withFont(Identifier.of("chat")).withColor(Formatting.DARK_AQUA)));
+    WE(
+            Text.literal("󏿼󏿿󏿾 ")
+                    .setStyle(Style.EMPTY
+                            .withFont(new StyleSpriteSource.Font(Identifier.of("minecraft", "chat/prefix")))
+                            .withColor(Formatting.DARK_AQUA)
+                    ),
+
+            Text.literal("\uDAFF\uDFFC\uE001\uDB00\uDC06 ")
+                    .setStyle(Style.EMPTY
+                            .withFont(new StyleSpriteSource.Font(Identifier.of("minecraft", "chat/prefix")))
+                            .withColor(Formatting.DARK_AQUA)
+                    )
+    );
 
     public static String lastBadge = "";
     public static int linesSinceBadge = 0;
@@ -27,6 +35,7 @@ public enum Prepend {
         this.prepend = prepend;
         this.blockIndicator = prepend;
     }
+
 
     Prepend(MutableText prepend, MutableText blockIndicator) {
         this.prepend = prepend;

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 
-
 public interface ScreenOpen {
     Event<ScreenOpen> EVENT = EventFactory.createArrayBacked(ScreenOpen.class, (listeners) -> (type, name) -> {
         for (ScreenOpen listener : listeners) {

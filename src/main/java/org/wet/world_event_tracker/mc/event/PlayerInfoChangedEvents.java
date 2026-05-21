@@ -1,10 +1,8 @@
 package org.wet.world_event_tracker.mc.event;
 
-
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.text.Text;
-import org.wet.world_event_tracker.World_event_tracker;
 
 import java.util.UUID;
 

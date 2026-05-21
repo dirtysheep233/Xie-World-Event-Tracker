@@ -18,10 +18,6 @@ public class CommandHelpFeature extends Feature {
             new Pair<>("/wet help", "Displays this list of commands."),
             new Pair<>("/wet credits", "Displays the credits for this mod."),
 
-            new Pair<>("\n","Mandatory Commands:"),
-
-            new Pair<>("/wet register", "Registers user on the database (required for mod functionality)."),
-
             new Pair<>("\n", "Bridge:"),
 
             new Pair<>("/wet reconnect", "Tries to connect to the chat server if it isn't already connected."),

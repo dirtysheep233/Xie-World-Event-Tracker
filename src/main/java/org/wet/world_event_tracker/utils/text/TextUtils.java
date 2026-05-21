@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.utils.text;
 
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextHandler;
 import net.minecraft.client.gui.hud.ChatHud;
@@ -10,10 +9,8 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.wet.world_event_tracker.mc.mixin.accessors.ChatHudAccessorInvoker;
-import org.wet.world_event_tracker.utils.McUtils;
 import org.wet.world_event_tracker.utils.text.type.TextParseOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,22 +18,6 @@ import java.util.regex.Pattern;
 
 public class TextUtils {
     private static final Pattern BLOCK_MARKER_PATTERN = Pattern.compile("^(§.)?\uDAFF\uDFFC\uE001\uDB00\uDC06(§.)?$");
-
-    public static List<Text> splitLines(Text message) {
-        ArrayList<Text> splitted = new ArrayList<>();
-        MutableText currentPart = Text.empty();
-        for (Text part : message.getWithStyle(message.getStyle())) {
-            if (part.getString().equals("\n")) {
-                splitted.add(currentPart);
-                currentPart = Text.empty();
-            } else {
-                currentPart.append(part);
-            }
-        }
-        if (!currentPart.equals(Text.empty())) splitted.add(currentPart);
-        return splitted;
-    }
-
 
     public static String parseStyled(StringVisitable text, TextParseOptions options) {
         TextVisitors.first = true;
@@ -66,8 +47,7 @@ public class TextUtils {
         ChatHud chatHud = client.inGameHud.getChatHud();
         ChatHudAccessorInvoker chatHudAccessorInvoker = (ChatHudAccessorInvoker) chatHud;
         TextHandler textHandler = client.textRenderer.getTextHandler();
-        List<StringVisitable> lines = textHandler.wrapLines(text, chatHudAccessorInvoker.invokeGetWidth(), text.getStyle(), Text.literal("\uDAFF\uDFFC\uE001\uDB00\uDC06")
-                .append(" ").setStyle(prependStyle));
+        List<StringVisitable> lines = textHandler.wrapLines(text, chatHudAccessorInvoker.invokeGetWidth(), text.getStyle());
         MutableText out = (MutableText) stringVisitableToText(lines.getFirst());
         for (int i = 1; i < lines.size(); ++i) {
             out.append("\n");
@@ -75,10 +55,6 @@ public class TextUtils {
         }
 
         return out;
-    }
-
-    public static String highlightUser(String message) {
-        return message.replaceAll("(?i)(" + McUtils.playerName() + ")", "§e$1§d");
     }
 
     static class TextVisitors {
@@ -91,39 +67,11 @@ public class TextUtils {
         static boolean afterBlockMarker;
         static TextParseOptions options;
         public static final StringVisitable.StyledVisitor<String> STYLED_VISITOR = (style, asString) -> {
-            if (options.extractUsernames && style.getHoverEvent() != null) {
-                handleStylesWithHover(style, asString);
-            } else {
-                handleStyles(style, asString);
-            }
+
+            handleStyles(style, asString);
+
             return Optional.empty();
         };
-
-        private static void handleStylesWithHover(Style style, String asString) {
-            assert style.getHoverEvent() != null;
-            if (style.getHoverEvent().getValue(style.getHoverEvent().getAction()) instanceof Text) {
-                List<Text> onHover = ((Text) Objects.requireNonNull(
-                        style.getHoverEvent().getValue(style.getHoverEvent().getAction()))).getSiblings();
-                if (asString.indexOf('/') == -1) {
-                    if (onHover != null) {
-                        if (onHover.size() > 2 && onHover.get(1).getString() != null && Objects.requireNonNull(
-                                onHover.get(1).getString()).contains("nickname is")) {
-                            handleStyles(style.withItalic(false), onHover.getFirst().getString());
-                        } else if (!onHover.isEmpty() && onHover.getFirst().getString() != null && onHover.getFirst()
-                                .getString().contains("real username is")) {
-                            if (onHover.size() > 1) {
-                                handleStyles(style.withItalic(false), onHover.get(1).getString());
-                            } else {
-                                handleStyles(style.withItalic(false), onHover.getFirst().getSiblings().getFirst()
-                                        .getString());
-                            }
-                        }
-                    }
-                }
-            } else {
-                handleStyles(style, asString);
-            }
-        }
 
         private static void handleStyles(Style style, String asString) {
             if (BLOCK_MARKER_PATTERN.matcher(asString).find() && !first) {

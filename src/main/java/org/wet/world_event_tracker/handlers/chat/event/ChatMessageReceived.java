@@ -6,6 +6,7 @@ import net.minecraft.text.Text;
 
 public interface ChatMessageReceived {
     Event<ChatMessageReceived> EVENT = EventFactory.createArrayBacked(ChatMessageReceived.class, (listeners) -> (message) -> {
+
         for (ChatMessageReceived listener : listeners) {
             listener.interact(message);
         }

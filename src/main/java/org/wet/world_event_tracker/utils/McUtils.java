@@ -1,6 +1,5 @@
 package org.wet.world_event_tracker.utils;
 
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.util.ChatMessages;
@@ -17,14 +16,10 @@ public class McUtils {
 
     public static String playerName() {
         if (World_event_tracker.isDevelopment()) return devName;
-        return player().getName().getString();
-    }
-
-    public static String playerUUID() {
-        if (World_event_tracker.isDevelopment()) return "39365bd4-5c78-41de-8901-c7dc5b7c64c4";
-        if (player() != null)
-            return player().getUuidAsString();
-        return null;
+        if (player() != null) {
+            return player().getName().getString();
+        }
+        return mc().getSession().getUsername();
     }
 
     public static PlayerEntity player() {

@@ -22,6 +22,7 @@ public abstract class Api {
     }
 
     private void onApiLoaded(Api api) {
+        World_event_tracker.LOGGER.info("Loading API " + api.name);
         if (this.depends(api)) dependencyLoaded();
     }
 
@@ -34,6 +35,7 @@ public abstract class Api {
     }
 
     private void dependencyLoaded() {
+        World_event_tracker.LOGGER.info("Loaded API " + name);
         --missingDeps;
         if (missingDeps == 0) {
             ready();
@@ -73,5 +75,6 @@ public abstract class Api {
         return !enabled;
     }
 
-    public abstract void init();
+    public void init() {
+    }
 }
