@@ -23,7 +23,7 @@ public class S2CServerEvents {
                     event += part;
                 }
                 if (events.contains(event)) {
-                    listener.interact("The "+splitMessage[0]+" World Event is starting soon ("+splitMessage[1]+")!");
+                    listener.interact("The "+splitMessage[0]+" World Event starts in "+splitMessage[1]+"!");
 
                 }
             } catch (IOException e) {
