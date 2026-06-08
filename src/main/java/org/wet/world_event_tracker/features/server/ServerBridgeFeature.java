@@ -12,7 +12,6 @@ import org.wet.world_event_tracker.handlers.chat.event.ChatMessageReceived;
 import org.wet.world_event_tracker.handlers.server.event.S2CServerEvents;
 import org.wet.world_event_tracker.net.SocketIOClient;
 import org.wet.world_event_tracker.utils.McUtils;
-import org.wet.world_event_tracker.utils.text.FontUtils;
 import org.wet.world_event_tracker.utils.text.TextUtils;
 import org.wet.world_event_tracker.utils.text.type.TextParseOptions;
 import org.wet.world_event_tracker.utils.type.Prepend;
@@ -55,19 +54,16 @@ public class ServerBridgeFeature extends Feature {
             try {
                 McUtils.sendLocalMessage(
                         Text.empty()
-                                .append(FontUtils.BannerPillFont.parseStringWithFill("server")
-                                        .fillStyle(Style.EMPTY.withColor(Formatting.DARK_AQUA)))
-                                .append(" ")
                                 .append(Text.literal(message.toString())
-                                        .fillStyle(Style.EMPTY.withColor(Formatting.BLUE))),
-                        Prepend.WE.getWithStyle(Style.EMPTY.withColor(Formatting.DARK_BLUE)),
+                                        .fillStyle(Style.EMPTY.withColor(Formatting.DARK_AQUA))),
+                        Prepend.WE.getWithStyle(Style.EMPTY.withColor(Formatting.DARK_AQUA)),
                         true
                 );
 
                 MinecraftClient client = MinecraftClient.getInstance();
 
                 if (client.player != null) {
-                    client.player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP);
+                    client.player.playSound(SoundEvents.ENTITY_CHICKEN_EGG);
                 }
             } catch (Exception e) {
                 World_event_tracker.LOGGER.info("server message error: {} {}", e, e.getMessage());
